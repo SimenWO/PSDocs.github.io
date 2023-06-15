@@ -1,0 +1,29 @@
+name: Generate BICEP templates docs with PSDOCS
+on: workflow_dispatch
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  arm_docs:
+    name: Generate README.md
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create ARM Templates from Bicep files
+        run: |
+          ${{ github.workspace }}/scripts/psdocs.ps1
+        shell: pwsh
+      - name: Setup Git Config
+        run: |
+          git config --global user.name "{{ github.actor }}"
+          git config --global user.email "{{ github.pusher.email }}"
+      - name: Create PR
+        run: |
+          git checkout -b README
+          git add --all
+          git commit -m "Updating README with latest documentation"
+          git push origin README
+          gh pr create --title "Updating README with latest documentation" --body "This documentation is automatically generated and should not be updated manually."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
