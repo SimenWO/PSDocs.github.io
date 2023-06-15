@@ -2,7 +2,7 @@
 Install-Module -Name 'Az' -Repository PSGallery -Force
 Install-Module -Name 'PSDocs.Azure' -Repository PSGallery -force;
 
-$rootFolderPath = 'resources';
+$rootFolderPath = 'infrastructure';
 $DocName = 'README';
 
 # Find all Bicep files in the specified root folder and its subfolders
