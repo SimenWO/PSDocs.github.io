@@ -1,4 +1,4 @@
-//Example Bicep file
+//Example Bicep file for vnet
 
 param vnetName string
 param location string = resourceGroup().location
